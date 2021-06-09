@@ -1,0 +1,13 @@
+# @package __group__
+simulation_params:
+  dt: 0.01
+  stages:
+    - name: "binding"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 5
+    - name: "transition"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 20
+    - name: "WTA"
+      mode: ${DOMAIN_MODE:WTA}
+      duration: 5
