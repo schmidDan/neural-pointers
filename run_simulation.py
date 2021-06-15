@@ -55,7 +55,9 @@ def run_simulation(config):
 
     # simulate stages
     for stage in config._simulation_.simulation_params.stages:
-        t = np.arange(t_old, t_old + stage.duration, config._simulation_.simulation_params.dt)
+        t = np.arange(
+            t_old, t_old + stage.duration, config._simulation_.simulation_params.dt
+        )
         m.set_mode(DOMAIN_MODE(stage.mode))
         # define input
         ode_args_binding = inputs.get_input(stage.name)
@@ -81,7 +83,7 @@ def main(cfg):
         configuration file `../conf/config.yaml`.
     """
     # comment the next line in to view the parsed configuration
-    #print(OmegaConf.to_yaml(cfg, resolve=True))
+    # print(OmegaConf.to_yaml(cfg, resolve=True))
 
     run_simulation(cfg)
 

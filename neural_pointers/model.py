@@ -60,7 +60,6 @@ class SynapticPointerModel:
         self._n_neurons = n_neurons
         self._input_weights = np.identity(n_neurons)
         self._pointer_weights = np.ones((n_neurons, n_neurons))
-        self._lateral_weights = np.identity(n_neurons)
 
         h_0_syn = np.zeros(np.shape(self._pointer_weights))
         h_0_neur = np.zeros(n_neurons)
@@ -93,7 +92,7 @@ class SynapticPointerModel:
         Args:
             h: Combined system state from which the synaptic state should be retrieved.
         """
-        return self._pointer_weights * (1 + self.get_synaptic_state(h))
+        return self._pointer_weights * (1.0 + self.get_synaptic_state(h))
 
     def get_neuron_state(self, h):
         """Getter method for the neuron states from the combined state `h`.
