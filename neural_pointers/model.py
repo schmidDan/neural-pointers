@@ -156,13 +156,13 @@ class SynapticPointerModel:
         ) / ps.tau
         return d_h_neur
 
-    def _get_d_h_syn(self, h_syn, h_neur, I_pointers):
+    def _get_d_h_syn(self, h_syn, r_neur, I_pointers):
         ps = self._get_mode_params().SynParams
 
-        syn_corr = np.reshape(I_pointers, (1, -1)) * np.reshape(h_neur, (-1, 1))
+        syn_corr = np.reshape(I_pointers, (1, -1)) * np.reshape(r_neur, (-1, 1))
         d_h_syn = (ps.syn_max - h_syn) * syn_corr / ps.tau_rise + (
             ps.syn_min - h_syn
-        ) * (1 - syn_corr) / ps.tau_decay
+        ) * (1.0 - syn_corr) / ps.tau_decay
         return d_h_syn
 
     def __call__(self, h, t, I_input, I_pointers):
@@ -185,6 +185,7 @@ class SynapticPointerModel:
         """
         h_syn = self.get_synaptic_state(h)
         h_neur = self.get_neuron_state(h)
+        r_neur = self.get_neuron_rates(h)
 
         # compute driving input
         exc = np.dot(self._input_weights, I_input)
@@ -192,9 +193,9 @@ class SynapticPointerModel:
         mod = np.dot(self.get_synaptic_weights(h), I_pointers)
         # compute inhibition (competition)
         kappa = self._get_mode_params().ConnectionParams.kappa
-        inh = sum(self.get_neuron_rates(h)) - kappa * self.get_neuron_rates(h)
+        inh = sum(r_neur) - kappa * r_neur
         # compute pointer state update
-        d_h_syn = self._get_d_h_syn(h_syn, h_neur, I_pointers)
+        d_h_syn = self._get_d_h_syn(h_syn, r_neur, I_pointers)
         # compute neuron state update
         d_h_neur = self._get_d_h_neur(h_neur, exc, mod, inh)
 
