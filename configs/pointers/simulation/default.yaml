@@ -1,0 +1,30 @@
+# Binding of items 0-5 (6 x 7 = 44 time units including resets), followed by their serial read-out.
+# Read-out durations are aligned to the stage durations of the difference computation experiment
+# (135, 65, 70, 95, 90, 75), minus the 2 time units of the preceding reset.
+# Stage names select the inputs (see PointerInputs), `mode` is BINDING or WTA.
+dt: 0.01
+stages:
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: binding0, mode: BINDING, duration: 5}
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: binding1, mode: BINDING, duration: 5}
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: binding2, mode: BINDING, duration: 5}
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: binding3, mode: BINDING, duration: 5}
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: binding4, mode: BINDING, duration: 5}
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: binding5, mode: BINDING, duration: 5}
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: WTA0, mode: WTA, duration: 135}
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: WTA1, mode: WTA, duration: 63}
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: WTA2, mode: WTA, duration: 68}
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: WTA3, mode: WTA, duration: 93}
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: WTA4, mode: WTA, duration: 88}
+  - {name: reset, mode: BINDING, duration: 2}
+  - {name: WTA5, mode: WTA, duration: 73}

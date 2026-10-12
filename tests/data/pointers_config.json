@@ -1,0 +1,187 @@
+{
+ "model": {
+  "common_params": {
+   "neuron_params": {
+    "alpha": 0.0,
+    "beta": 1.0,
+    "delta": 0.1,
+    "gamma": 1.0,
+    "tau": 1.0
+   },
+   "syn_params": {
+    "syn_min": 0.0,
+    "syn_max": 1.0,
+    "tau_rise": 1.0,
+    "tau_decay": 200.0
+   }
+  },
+  "binding_params": {
+   "neuron_params": {
+    "eta": 1.0,
+    "alpha": 0.0,
+    "beta": 1.0,
+    "delta": 0.1,
+    "gamma": 1.0,
+    "tau": 1.0
+   },
+   "syn_params": {
+    "syn_min": 0.0,
+    "syn_max": 1.0,
+    "tau_rise": 1.0,
+    "tau_decay": 200.0
+   },
+   "connection_params": {
+    "kappa": 0.0,
+    "k_inh": 0.0
+   }
+  },
+  "WTA_params": {
+   "neuron_params": {
+    "eta": 1.0,
+    "alpha": 0.0,
+    "beta": 1.0,
+    "delta": 10.0,
+    "gamma": 1.0,
+    "tau": 1.0
+   },
+   "syn_params": {
+    "syn_min": 0.0,
+    "syn_max": 1.0,
+    "tau_rise": 1.0,
+    "tau_decay": 200.0
+   },
+   "connection_params": {
+    "kappa": 1.0,
+    "k_inh": 1.0
+   }
+  }
+ },
+ "simulation": {
+  "dt": 0.01,
+  "stages": [
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "binding0",
+    "mode": "BINDING",
+    "duration": 5
+   },
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "binding1",
+    "mode": "BINDING",
+    "duration": 5
+   },
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "binding2",
+    "mode": "BINDING",
+    "duration": 5
+   },
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "binding3",
+    "mode": "BINDING",
+    "duration": 5
+   },
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "binding4",
+    "mode": "BINDING",
+    "duration": 5
+   },
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "binding5",
+    "mode": "BINDING",
+    "duration": 5
+   },
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "WTA0",
+    "mode": "WTA",
+    "duration": 135
+   },
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "WTA1",
+    "mode": "WTA",
+    "duration": 63
+   },
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "WTA2",
+    "mode": "WTA",
+    "duration": 68
+   },
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "WTA3",
+    "mode": "WTA",
+    "duration": 93
+   },
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "WTA4",
+    "mode": "WTA",
+    "duration": 88
+   },
+   {
+    "name": "reset",
+    "mode": "BINDING",
+    "duration": 2
+   },
+   {
+    "name": "WTA5",
+    "mode": "WTA",
+    "duration": 73
+   }
+  ]
+ },
+ "seed": 42,
+ "n_neurons": 6,
+ "plot": true
+}

@@ -1,0 +1,19 @@
+# Parameters of the CompetitiveQueueingModel.
+neuron_params:
+  # input (planning) nodes x
+  A_x: 1.0
+  B_x: 5.0
+  C_x: 5.0
+  tau_x: 10.0
+  G: 2.0 # gain of the normalization while aroused
+  epsilon: 5.0
+  # output (choice) nodes y
+  A_y: 1.0
+  B_y: 3.0
+  C_y: 1.0
+  tau_y: 20.0
+  # inhibitory (feedback) nodes w
+  A_w: 0.0
+  B_w: 5.0
+  tau_w: 5.0
+  theta_t: 2.5 # output activity threshold driving the feedback inhibition

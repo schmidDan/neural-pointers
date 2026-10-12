@@ -1,6 +1,0 @@
-seed: 42
-n_neurons: 1
-plot: True
-defaults:
-    - model: default_model
-    - simulation: default_simulation

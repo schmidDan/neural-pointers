@@ -1,0 +1,16 @@
+# Competitive queueing experiment: serial execution of a graded activity pattern over six items.
+# The defaults reproduce the simulation of the BonnBrain 2024 poster.
+defaults:
+  - model: default
+  - simulation: default
+  - _self_
+
+seed: 42
+n_neurons: 6
+plot: true
+
+hydra:
+  run:
+    dir: outputs/competitive_queueing/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/competitive_queueing/${now:%Y-%m-%d}/${now:%H-%M-%S}

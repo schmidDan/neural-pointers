@@ -1,0 +1,62 @@
+{
+ "model": {
+  "n_inputs_per_neuron": 7,
+  "weight_seed": 132,
+  "neuron_params": {
+   "alpha": 0.0,
+   "beta": 1.0,
+   "eta": 1.0,
+   "gamma": 0.0,
+   "tau": 1.0,
+   "alpha_i": 0.0,
+   "beta_i": 1.0,
+   "tau_i": 1.0,
+   "alpha_inp": 0.1,
+   "beta_inp": 1.0,
+   "lambda_inp": 0.3,
+   "gamma_inp": 1.0,
+   "eta_inp": 1.0,
+   "tau_inp": 5.0,
+   "alpha_evdc": 0.5,
+   "beta_evdc": 1.0,
+   "tau_evdc": 10.0,
+   "thresh_evdc": 0.6
+  }
+ },
+ "simulation": {
+  "dt": 0.01,
+  "stages": [
+   {
+    "name": "pattern_zeros",
+    "duration": 44
+   },
+   {
+    "name": "pattern0",
+    "duration": 135
+   },
+   {
+    "name": "pattern1",
+    "duration": 65
+   },
+   {
+    "name": "pattern2",
+    "duration": 70
+   },
+   {
+    "name": "pattern3",
+    "duration": 95
+   },
+   {
+    "name": "pattern4",
+    "duration": 90
+   },
+   {
+    "name": "pattern5",
+    "duration": 75
+   }
+  ]
+ },
+ "seed": 42,
+ "n_neurons": 1,
+ "plot": true
+}

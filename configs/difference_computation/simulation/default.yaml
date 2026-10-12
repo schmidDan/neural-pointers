@@ -1,0 +1,11 @@
+# No input for the 44 time units of the pointer binding phase, then six input patterns in sequence.
+# Stage names select the inputs, see DifferenceComputationInputs.
+dt: 0.01
+stages:
+  - {name: pattern_zeros, duration: 44}
+  - {name: pattern0, duration: 135}
+  - {name: pattern1, duration: 65}
+  - {name: pattern2, duration: 70}
+  - {name: pattern3, duration: 95}
+  - {name: pattern4, duration: 90}
+  - {name: pattern5, duration: 75}

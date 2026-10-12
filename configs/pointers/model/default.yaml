@@ -1,0 +1,48 @@
+# Parameters of the SynapticPointerModel. Both operation modes (binding and WTA read-out) share `common_params`
+# unless overridden.
+common_params:
+  neuron_params:
+    alpha: 0.0
+    beta: 1.0
+    delta: 0.1
+    gamma: 1.0 # does not enter the dynamics
+    tau: 1.0
+  syn_params:
+    syn_min: 0.0
+    syn_max: 1.0
+    tau_rise: 1.0
+    tau_decay: 200.0
+
+binding_params:
+  neuron_params:
+    eta: 1.0
+    alpha: ${model.common_params.neuron_params.alpha}
+    beta: ${model.common_params.neuron_params.beta}
+    delta: ${model.common_params.neuron_params.delta}
+    gamma: ${model.common_params.neuron_params.gamma}
+    tau: ${model.common_params.neuron_params.tau}
+  syn_params:
+    syn_min: ${model.common_params.syn_params.syn_min}
+    syn_max: ${model.common_params.syn_params.syn_max}
+    tau_rise: ${model.common_params.syn_params.tau_rise}
+    tau_decay: ${model.common_params.syn_params.tau_decay}
+  connection_params:
+    kappa: 0.0
+    k_inh: 0.0
+
+WTA_params:
+  neuron_params:
+    eta: 1.0
+    alpha: ${model.common_params.neuron_params.alpha}
+    beta: ${model.common_params.neuron_params.beta}
+    delta: 10.0 # strong pointer modulation during read-out
+    gamma: ${model.common_params.neuron_params.gamma}
+    tau: ${model.common_params.neuron_params.tau}
+  syn_params:
+    syn_min: ${model.common_params.syn_params.syn_min}
+    syn_max: ${model.common_params.syn_params.syn_max}
+    tau_rise: ${model.common_params.syn_params.tau_rise}
+    tau_decay: ${model.common_params.syn_params.tau_decay}
+  connection_params:
+    kappa: 1.0 # no self-inhibition
+    k_inh: 1.0 # pooled inhibition (winner-take-all)
