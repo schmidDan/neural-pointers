@@ -1,0 +1,18 @@
+# Structure of the pointer model used for the simulations of the BonnBrain 2024 poster: additive excitation, subtractive
+# inhibition, pointer weights 1 + s, pointer activities given as external input and plasticity in both modes. Select with
+# `model=poster_simulation`. Later bug fixes are included; the exact poster code is tagged `poster-bonnbrain2024`.
+defaults:
+  - default
+  - _self_
+
+variant:
+  excitation: additive
+  inhibition: subtractive
+  pointer_weights: offset
+  pointer_dynamics: false
+
+WTA_params:
+  neuron_params:
+    eta: 1.0
+  syn_params:
+    tau_rise: ${...common_params.syn_params.tau_rise} # Hebbian growth also during read-out

@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Neural Pointers"
+version: 1.0.0
+date-released: 2026-10-12
+license: MIT
+repository-code: "https://github.com/schmidDan/neural-pointers"
+authors:
+  - family-names: Schmid
+    given-names: Daniel
+    affiliation: "Institute for Neural Information Processing, Ulm University"
+  - family-names: Jarvers
+    given-names: Christian
+    affiliation: "Institute for Neural Information Processing, Ulm University"
+  - family-names: Neumann
+    given-names: Heiko
+    affiliation: "Institute for Neural Information Processing, Ulm University"
+preferred-citation:
+  type: generic
+  title: "A Neurodynamical Model of Sequencing and Executing Visual-Mental Operations"
+  year: 2024
+  authors:
+    - family-names: Schmid
+      given-names: Daniel
+    - family-names: Jarvers
+      given-names: Christian
+    - family-names: Neumann
+      given-names: Heiko
+  conference:
+    name: "7th BonnBrain³ Meeting"
+    city: Bonn
+    country: DE
+    date-start: 2024-08-19
+    date-end: 2024-08-21
+  notes: "Poster"

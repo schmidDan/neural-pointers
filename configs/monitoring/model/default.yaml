@@ -1,0 +1,32 @@
+# Parameters of the MonitoringModel.
+n_inputs_per_neuron: 7
+weight_seed: 132 # seed of the random recurrent weights of the input layer
+neuron_params:
+  # difference neurons
+  alpha: 0.0
+  beta: 1.0
+  eta: 1.0
+  gamma: 0.0
+  tau: 1.0
+  # prediction neurons
+  alpha_pred: 0.0
+  beta_pred: 3.0 # ceiling of the prediction, above the summed input of a group
+  tau_pred: 4.0 # slow enough to damp the difference after input changes
+  # input neurons (alpha_input, beta_input and tau_input are shared with the inhibitory input neurons)
+  alpha_input: 0.1
+  beta_input: 1.0
+  lambda_input: 2.0 # strong recurrent processing; the settling time is specific to the input pattern
+  gamma_input: 1.0
+  eta_input: 1.0
+  tau_input: 5.0
+  # convergence detection
+  theta_d: 0.005 # scale of the closeness of the difference to zero
+  alpha_evidence: 0.25
+  beta_evidence: 1.0
+  tau_evidence: 20.0
+  thresh_evidence: 0.5 # evidence at which convergence is signaled
+  width_evidence: 0.02
+  w_self_evidence: 4.0 # self-excitation, makes the convergence signal all-or-none
+  gamma_adapt: 1.0 # shunting inhibition of the evidence by the adaptation
+  tau_adapt: 5.0
+  kappa_adapt: 1.0 # rate at which a deviation of the difference re-enables the evidence accumulation

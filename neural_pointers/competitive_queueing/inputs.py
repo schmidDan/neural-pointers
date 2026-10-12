@@ -6,8 +6,8 @@ import numpy as np
 class CompetitiveQueueingInputs:
     """Inputs for the stages of a competitive queueing protocol.
 
-    The input pattern is a linear gradient from 0.1 to 1.0, i.e. the item with the highest index has the strongest
-    activation and is executed first.
+    The input pattern is a linear gradient from 1.0 to 0.1, i.e. item 0 has the strongest activation and is executed
+    first.
 
     Stage names select the inputs:
 
@@ -24,7 +24,7 @@ class CompetitiveQueueingInputs:
             rng: Unused, kept for a uniform interface across experiments.
         """
         self.I_input_off = np.zeros(n_neurons)
-        self.I_input_on = np.linspace(0.1, 1.0, n_neurons)
+        self.I_input_on = np.linspace(1.0, 0.1, n_neurons)
 
         self.I_arousal_off = 0.0
         self.I_arousal_on = 10.0

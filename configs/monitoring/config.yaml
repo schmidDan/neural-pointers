@@ -1,0 +1,17 @@
+# Difference computation experiment: a sequence of input patterns is presented and the evidence neuron signals when
+# the input representation has settled.
+# Based on the simulation of the BonnBrain 2024 poster (tag poster-bonnbrain2024), see CHANGELOG.md for changes.
+defaults:
+  - model: default
+  - simulation: default
+  - _self_
+
+seed: 42
+n_neurons: 1 # only 1 is supported
+plot: true
+
+hydra:
+  run:
+    dir: outputs/monitoring/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/monitoring/${now:%Y-%m-%d}/${now:%H-%M-%S}

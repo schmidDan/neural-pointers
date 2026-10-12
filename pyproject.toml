@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "neural-pointers"
-version = "1.0.0.dev0"
+version = "1.0.0"
 description = "Neurodynamical models of neural pointers, competitive queueing and progress monitoring for sequencing visual-mental operations"
 readme = "README.md"
 license = { file = "LICENSE" }

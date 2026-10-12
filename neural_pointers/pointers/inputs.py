@@ -15,8 +15,8 @@ class PointerInputs:
     """Inputs for the stages of a pointer binding and read-out protocol.
 
     For each item `k` a random input pattern and a pointer are generated. Pattern `k` drives domain neuron `k` most
-    strongly (1.2) and does not drive neuron `k + 1` at all. Pointer `k` is a one-hot vector at position `k` whose
-    strength decreases linearly with `k` from 1.0 to 0.5 to encode the serial order (1.0 for a single item).
+    strongly (1.2) and does not drive neuron `k + 1` at all. Pointer `k` is a one-hot vector at position `k`. The serial
+    order is not encoded by the pointers but by the order of the stages (or by the competitive queueing network).
 
     Stage names select the inputs:
 
@@ -42,7 +42,7 @@ class PointerInputs:
             random_patterns.append(rnd_pattern)
 
             pointer = np.zeros(n_neurons)
-            pointer[idx_neur] = 1.0 - 0.5 * (idx_neur / max(n_neurons - 1, 1))
+            pointer[idx_neur] = 1.0
             pointers.append(pointer)
 
         self.random_patterns = random_patterns

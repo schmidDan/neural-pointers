@@ -36,14 +36,12 @@ def threshold_linear(h, thresh):
     return r
 
 
-def step(h, thresh):
-    """Binary step activation: 0 below `thresh`, 1 above. Values exactly at `thresh` are passed through unchanged.
+def logistic(h, thresh, width):
+    """Logistic activation `1 / (1 + exp(-(h - thresh) / width))`, a smooth step from 0 to 1 at `thresh`.
 
     Args:
         h: Membrane potentials.
-        thresh: Activation threshold.
+        thresh: Potential at which the activation is 0.5.
+        width: Width of the transition, the activation is 0.27 and 0.73 at `thresh -/+ width`.
     """
-    r = np.copy(h)
-    r[h < thresh] = 0.0
-    r[h > thresh] = 1.0
-    return r
+    return 1.0 / (1.0 + np.exp(-(h - thresh) / width))

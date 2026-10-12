@@ -1,0 +1,53 @@
+# Closed-loop simulation of all three components (see neural_pointers.coupled.model.CoupledModel): six operations are
+# bound to six pointers; afterwards the competitive queueing network selects one operation after the other, its
+# pointer retrieves the operation, the retrieved operation drives the monitoring network, and the convergence signal
+# advances the sequence via the arousal signal.
+defaults:
+  - pointers/model@models.pointers: default
+  - competitive_queueing/model@models.competitive_queueing: default
+  - monitoring/model@models.monitoring: default
+  - _self_
+
+seed: 42
+n_operations: 6
+plot: true
+
+coupling:
+  pointer_gain: 0.15 # output rate of the competitive queueing network -> pointer input
+  arousal_gain: 6.0
+  arousal_threshold: 0.5 # part of the convergence signal that drives the arousal
+  tau_arousal: 3.0
+  reset_gain: 10.0 # global inhibition of the pointer domain
+  reset_gain_processing: 10.0 # global inhibition of the monitoring input layer (database)
+  reset_threshold: 3.0 # the reset starts once the arousal has been on for a while
+  tau_reset: 5.0
+  go_arousal: 10.0 # external arousal that starts the execution
+  # processing pattern of each operation (indices into the input patterns of the monitoring network);
+  # the execution duration of an operation is the settling time of its pattern
+  processing_patterns: [0, 1, 2, 3, 4, 5]
+
+simulation:
+  dt: 0.01
+  # Binding of the operations as in the pointer experiment (44 time units), then the closed loop.
+  stages:
+    - {name: reset, mode: BINDING, duration: 2}
+    - {name: binding0, mode: BINDING, duration: 5}
+    - {name: reset, mode: BINDING, duration: 2}
+    - {name: binding1, mode: BINDING, duration: 5}
+    - {name: reset, mode: BINDING, duration: 2}
+    - {name: binding2, mode: BINDING, duration: 5}
+    - {name: reset, mode: BINDING, duration: 2}
+    - {name: binding3, mode: BINDING, duration: 5}
+    - {name: reset, mode: BINDING, duration: 2}
+    - {name: binding4, mode: BINDING, duration: 5}
+    - {name: reset, mode: BINDING, duration: 2}
+    - {name: binding5, mode: BINDING, duration: 5}
+    - {name: reset, mode: BINDING, duration: 2}
+    - {name: go, mode: WTA, duration: 10}
+    - {name: execute, mode: WTA, duration: 650}
+
+hydra:
+  run:
+    dir: outputs/coupled/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/coupled/${now:%Y-%m-%d}/${now:%H-%M-%S}

@@ -1,4 +1,4 @@
-"""External inputs to the difference computation model."""
+"""External inputs to the monitoring model."""
 
 import logging
 import re
@@ -12,8 +12,8 @@ N_PATTERNS = 10
 _RGX_PATTERN = re.compile(r"pattern(\d+)")
 
 
-class DifferenceComputationInputs:
-    """Inputs for the stages of a difference computation protocol.
+class MonitoringInputs:
+    """Inputs for the stages of a monitoring protocol.
 
     `N_PATTERNS` input patterns are drawn uniformly from [0, 1). Stage names select the inputs:
 

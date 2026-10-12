@@ -1,16 +1,16 @@
-"""Difference computation (progress monitoring) experiment."""
+"""Monitoring experiment: convergence detection on a sequence of input patterns."""
 
 import logging
 from pathlib import Path
 
 import numpy as np
 
-from neural_pointers.difference_computation.inputs import DifferenceComputationInputs
-from neural_pointers.difference_computation.model import (
-    DifferenceComputationModel,
+from neural_pointers.monitoring.inputs import MonitoringInputs
+from neural_pointers.monitoring.model import (
+    MonitoringModel,
     convergence_time,
 )
-from neural_pointers.difference_computation.visualization import (
+from neural_pointers.monitoring.visualization import (
     visualize_stage,
     visualize_trial,
 )
@@ -25,7 +25,7 @@ log = logging.getLogger(__name__)
 
 
 def run_experiment(cfg, out_dir=None):
-    """Simulates the difference computation model for the stages defined in `cfg.simulation`.
+    """Simulates the monitoring model for the stages defined in `cfg.simulation`.
 
     Args:
         cfg: Experiment config with `seed`, `n_neurons`, `plot`, `model` and `simulation`.
@@ -36,10 +36,8 @@ def run_experiment(cfg, out_dir=None):
         per stage.
     """
     rng = np.random.default_rng(cfg.seed)
-    model = DifferenceComputationModel(cfg.n_neurons, cfg.model)
-    inputs = DifferenceComputationInputs(
-        cfg.n_neurons * cfg.model.n_inputs_per_neuron, rng
-    )
+    model = MonitoringModel(cfg.n_neurons, cfg.model)
+    inputs = MonitoringInputs(cfg.n_neurons * cfg.model.n_inputs_per_neuron, rng)
 
     results = simulate_stages(
         model, inputs.get_input, cfg.simulation.stages, cfg.simulation.dt, model.h_0

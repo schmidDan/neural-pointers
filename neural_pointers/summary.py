@@ -8,7 +8,7 @@ from hydra import compose, initialize_config_dir
 
 from neural_pointers.simulation import concatenate_stages
 
-EXPERIMENTS = ["pointers", "competitive_queueing", "difference_computation"]
+EXPERIMENTS = ["pointers", "competitive_queueing", "monitoring", "coupled"]
 
 
 def _round(x, digits=4):
@@ -63,16 +63,15 @@ def summarize_competitive_queueing(model, results):
     n = model.n_neurons
     return {
         "execution_order": selected,
-        "execution_order_correct": selected
-        == list(range(n - 1, n - 1 - len(selected), -1)),
+        "execution_order_correct": selected == list(range(len(selected))),
         "output_peak_rate": _round(peaks),
     }
 
 
-def summarize_difference_computation(model, results, convergence_times):
+def summarize_monitoring(model, results, convergence_times):
     """Convergence durations per stage and range of the difference signal."""
     _, h = concatenate_stages(results)
-    d = np.array([model.get_neuron_rate_exc_nodes(x) for x in h])
+    d = np.array([model.get_neuron_rate_difference_nodes(x) for x in h])
     return {
         "convergence_duration": _round(convergence_times[:, 2]),
         "difference_min": _round(d.min()),
@@ -90,20 +89,35 @@ def summarize(experiment, cfg):
         from neural_pointers.competitive_queueing.experiment import run_experiment
 
         return summarize_competitive_queueing(*run_experiment(cfg))
-    if experiment == "difference_computation":
-        from neural_pointers.difference_computation.experiment import run_experiment
+    if experiment == "monitoring":
+        from neural_pointers.monitoring.experiment import run_experiment
 
-        return summarize_difference_computation(*run_experiment(cfg))
+        return summarize_monitoring(*run_experiment(cfg))
+    if experiment == "coupled":
+        from neural_pointers.coupled.experiment import run_experiment
+
+        summary = run_experiment(cfg)[2]
+        return {
+            "selected": summary["selected"],
+            "retrieved": summary["retrieved"],
+            "convergence_signals": _round(summary["convergence_signals"]),
+            "execution_durations": _round(summary["execution_durations"]),
+        }
     raise ValueError("Unknown experiment, got: {}".format(experiment))
 
 
 def summarize_all(config_root, overrides=()):
-    """Summaries of all experiments with their default configs from `config_root/<experiment>/config.yaml`."""
+    """Summaries of all experiments with their default configs from `config_root/<experiment>/config.yaml` and
+    `config_root/coupled.yaml`."""
     summaries = {}
     for experiment in EXPERIMENTS:
+        if experiment == "coupled":
+            config_dir, config_name = Path(config_root), "coupled"
+        else:
+            config_dir, config_name = Path(config_root, experiment), "config"
         with initialize_config_dir(
-            version_base="1.3", config_dir=str(Path(config_root, experiment).resolve())
+            version_base="1.3", config_dir=str(config_dir.resolve())
         ):
-            cfg = compose(config_name="config", overrides=list(overrides))
+            cfg = compose(config_name=config_name, overrides=list(overrides))
         summaries[experiment] = summarize(experiment, cfg)
     return summaries

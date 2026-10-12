@@ -1,5 +1,5 @@
 # Binding of items 0-5 (6 x 7 = 44 time units including resets), followed by their serial read-out.
-# Read-out durations are aligned to the stage durations of the difference computation experiment
+# Read-out durations are aligned to the stage durations of the monitoring experiment
 # (135, 65, 70, 95, 90, 75), minus the 2 time units of the preceding reset.
 # Stage names select the inputs (see PointerInputs), `mode` is BINDING or WTA.
 dt: 0.01

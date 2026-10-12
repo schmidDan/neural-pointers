@@ -130,9 +130,9 @@ def visualize_trial(model, h, t, out_dir="."):
         out_dir / "summary_plot_inhib_over_time.png",
     )
 
-    # output rates in order of execution (the item with the highest index is executed first)
+    # output rates in order of execution (item 0 is executed first)
     plt.figure()
-    for idx in range(n - 1, -1, -1):
+    for idx in range(n):
         plt.plot(t, np.array([model.get_neuron_rate_output_nodes(x)[idx] for x in h]))
     plt.legend(["op{}".format(k + 1) for k in range(n)])
     plt.savefig(out_dir / "result_output_over_time.png")

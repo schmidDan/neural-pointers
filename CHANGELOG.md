@@ -1,37 +1,41 @@
 # Changelog
 
-Issue IDs (S1, B1, ...) refer to [docs/known_issues.md](docs/known_issues.md). The code state that reproduces the
-BonnBrain 2024 poster is tagged `poster-bonnbrain2024`. Changes of the results can be inspected with
-`python tools/compare.py poster-bonnbrain2024 <version>`.
+## 1.0.0
 
-## [Unreleased]
-
-### Changed
-
-- B4 (part): the input layer size and the weight seed of the difference computation model are configurable (`model.n_inputs_per_neuron`, `model.weight_seed`); the defaults are unchanged.
-- B11: stage figures are prefixed with the stage index (`stage_<index>_<name>_...`), so repeated stages no longer overwrite each other's figures.
-- Restructured the code into one subpackage per model with shared activation functions and stage-wise simulation.
-- Migrated to Hydra 1.3 and Python ≥ 3.10. Configurations live in `configs/<model>/`, runners are `run_<model>.py`.
-- Every run stores its trajectories in `results.npz` in the Hydra output directory.
+First standalone release. The code was developed from the simulations of the BonnBrain 2024 poster; that exact state
+is tagged `poster-bonnbrain2024`, and [docs/poster_differences.md](docs/poster_differences.md) summarizes how the
+released models differ from it. `python tools/compare.py poster-bonnbrain2024 WORKTREE` compares the results of two
+code versions.
 
 ### Added
 
-- Reproduction tests against the poster simulations and unit tests.
-- Overview figure of all components (`plot_overview.py`), summary quantities (`neural_pointers.summary`) and a
-  comparison tool for code versions (`tools/compare.py`).
+* Closed-loop simulation of all three components (`run_coupled.py`): the monitoring network's convergence signal
+  advances the competitive queueing network, whose output activates the pointers. All operations are executed in
+  order, and the execution duration of an operation is the settling time of its own processing pattern.
+* Structural variants of the pointer model (`model.variant`) and the preset `model=poster_simulation` with the
+  structure used for the poster simulations.
+* Reproduction tests against stored reference trajectories, unit tests, and a GitHub Actions workflow (Python 3.10
+  and 3.12).
+* Figures generated from the models (`plot_overview.py`): overview and closed loop per pointer preset, variant
+  comparison, and schematics of the architecture and the pointer mechanism.
+* Summary quantities (`neural_pointers.summary`) and a version comparison tool (`tools/compare.py`).
+
+### Changed
+
+Model revisions relative to the poster simulations; see
+[docs/poster_differences.md](docs/poster_differences.md) for the reasons and measured effects.
+
+* The default pointer model follows the equations shown on the poster (shunting excitation and inhibition, pointer
+  neurons, purely synaptic pointer weights), bounds the Hebbian coincidence term and forms pointers during binding
+  only.
+* The monitoring network detects convergence with a neural mechanism (closeness, evidence with self-excitation,
+  adaptation) instead of solver-dependent timers, normalizes its recurrent weights per neuron, avoids prediction
+  saturation, damps the difference, and processes its input patterns with strong recurrence, which makes settling
+  times operation-specific.
+* Operation 0 is executed first in all components, and simulation stages lie on one contiguous time grid.
 
 ### Fixed
 
-These fixes do not change the simulated dynamics.
-
-- The runners and tests use the non-interactive Agg backend of matplotlib and no longer fail on systems without a working Tk installation.
-- B7: the pointer inputs support a single item.
-- B12: heatmap cells are rasterized in SVG figures (60-125 MB → below 200 KB per figure).
-- B9: the competitive queueing state heatmaps are drawn into separate figures instead of stacking colorbars.
-- B10: removed a mislabeled legend from `stage_<name>_final_syn`.
-- B8: `syn_state_strongest_syn_over_time.png` shows the synapse with the largest state.
-- The difference computation results were never stored.
-- The difference computation experiment crashed with `plot=false` or when no convergence was signaled.
-- The competitive queueing model printed at every evaluation of its right-hand side.
-- The competitive queueing figures assumed exactly six items.
-- A difference computation figure was overwritten by another figure of the same name.
+Output and figure handling, without effect on the dynamics: results of every experiment are stored as `results.npz`,
+runs no longer fail without a Tk installation or with `plot=false`, repeated stages keep their figures, legends and
+heatmaps are corrected, and vector figures no longer embed one shape per time step.

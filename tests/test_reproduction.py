@@ -1,4 +1,4 @@
-"""The default configurations reproduce the simulations of the BonnBrain 2024 poster."""
+"""The default simulations match the stored reference trajectories."""
 
 import json
 
@@ -9,12 +9,14 @@ from omegaconf import OmegaConf
 from tests.conftest import DATA, load_config
 from tests.reference import simulate
 
-# Tolerances cover numerical differences between platforms and library versions. The difference computation model is
-# sensitive to the internal steps of the ODE solver (see docs/known_issues.md) and therefore only checked coarsely.
+# Tolerances cover numerical differences between platforms and library versions.
 TOLERANCES = {
     "pointers": dict(rtol=1e-6, atol=1e-6),
     "competitive_queueing": dict(rtol=1e-5, atol=1e-5),
-    "difference_computation": dict(rtol=0.0, atol=0.15),
+    "monitoring": dict(rtol=1e-5, atol=1e-5),
+    # The thresholds of the closed loop amplify small numerical differences (up to 3e-3 between Python 3.10 and 3.12);
+    # its discrete outcome is checked exactly in test_coupled_execution_matches_reference.
+    "coupled": dict(rtol=0.0, atol=1e-2),
 }
 
 
@@ -52,10 +54,29 @@ def test_trajectories_match_reference(experiment, simulations, key):
 
 
 def test_convergence_times_match_reference(simulations):
-    reference = np.load(DATA / "difference_computation_reference.npz")
+    reference = np.load(DATA / "monitoring_reference.npz")
     np.testing.assert_allclose(
-        simulations("difference_computation")["convergence_times"],
+        simulations("monitoring")["convergence_times"],
         reference["convergence_times"],
         rtol=0.0,
-        atol=0.5,
+        atol=0.011,  # one sample
+    )
+
+
+def test_coupled_execution_matches_reference(simulations):
+    reference = np.load(DATA / "coupled_reference.npz")
+    data = simulations("coupled")
+    np.testing.assert_array_equal(data["selected"], reference["selected"])
+    np.testing.assert_array_equal(data["retrieved"], reference["retrieved"])
+    np.testing.assert_allclose(
+        data["convergence_signals"],
+        reference["convergence_signals"],
+        rtol=0.0,
+        atol=0.011,  # one sample
+    )
+    np.testing.assert_allclose(
+        data["execution_durations"],
+        reference["execution_durations"],
+        rtol=0.0,
+        atol=0.1,
     )

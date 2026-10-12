@@ -1,6 +1,6 @@
 # Six arousal pulses of increasing length, each followed by a hold phase. The first hold phase matches the 44 time
 # units of the pointer binding phase; each pulse plus the subsequent hold phase matches the stage durations of the
-# difference computation experiment (135, 65, 70, 95, 90, 75).
+# monitoring experiment (135, 65, 70, 95, 90, 75).
 # Stage names select the inputs, see CompetitiveQueueingInputs.
 dt: 0.01
 stages:

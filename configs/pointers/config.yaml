@@ -1,5 +1,5 @@
 # Synaptic pointer experiment: six items are bound to six pointers and read out serially afterwards.
-# The defaults reproduce the simulation of the BonnBrain 2024 poster.
+# Based on the simulation of the BonnBrain 2024 poster (tag poster-bonnbrain2024), see CHANGELOG.md for changes.
 defaults:
   - model: default
   - simulation: default

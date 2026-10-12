@@ -1,5 +1,14 @@
 {
  "model": {
+  "variant": {
+   "excitation": "shunting",
+   "inhibition": "shunting",
+   "pointer_weights": "synaptic",
+   "pointer_dynamics": true
+  },
+  "pointer_params": {
+   "tau": 0.2
+  },
   "common_params": {
    "neuron_params": {
     "alpha": 0.0,
@@ -37,7 +46,7 @@
   },
   "WTA_params": {
    "neuron_params": {
-    "eta": 1.0,
+    "eta": 10.0,
     "alpha": 0.0,
     "beta": 1.0,
     "delta": 10.0,
@@ -47,7 +56,7 @@
    "syn_params": {
     "syn_min": 0.0,
     "syn_max": 1.0,
-    "tau_rise": 1.0,
+    "tau_rise": Infinity,
     "tau_decay": 200.0
    },
    "connection_params": {
