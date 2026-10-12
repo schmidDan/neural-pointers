@@ -1,0 +1,52 @@
+# @package __group__
+simulation_params:
+  dt: 0.01
+  stages:
+    - name: "numbed"
+      duration: 44 # from pt formation 44 #20
+    - name: "aroused"
+      duration: 10
+    - name: "numbed"
+      duration: 125 # from dc 135 - 10 arousal #20
+    - name: "aroused"
+      duration: 10
+    - name: "numbed"
+      duration: 55 # from dc 65 - 10 arousal #20
+    - name: "aroused"
+      duration: 15
+    - name: "numbed"
+      duration: 55 # from dc 70 - 15 from arousal #20
+    - name: "aroused"
+      duration: 20
+    - name: "numbed"
+      duration: 75 # from dc 95 - 20 from arousal #20
+    - name: "aroused"
+      duration: 25
+    - name: "numbed"
+      duration: 65 # from dc 90 - 25 from arousal #20
+    - name: "aroused"
+      duration: 30
+    - name: "numbed"
+      duration: 45 # from dc 75 - 30 from arousal #20
+
+      
+#    - name: "numbed"
+#      duration: 60
+#    - name: "aroused"
+#      duration: 10
+#    - name: "numbed"
+#      duration: 60
+#    - name: "aroused"
+#      duration: 10
+#    - name: "numbed"
+#      duration: 60
+#    - name: "aroused"
+#      duration: 10
+#    - name: "numbed"
+#      duration: 60
+#    - name: "aroused"
+#      duration: 10
+#    - name: "numbed"
+#      duration: 60
+#    - name: "aroused"
+#      duration: 10

@@ -52,6 +52,7 @@ def run_simulation(config):
     t_old = 0
     h_m_old = m._h_0
     results = []
+    ts = []
 
     # simulate stages
     for stage in config._simulation_.simulation_params.stages:
@@ -69,12 +70,14 @@ def run_simulation(config):
 
         # Concatenate results
         results.append(h_m)
+        ts.append(t)
+    ts = np.concatenate(ts)
 
     # Visualize results
-    visualize_trial(m, results)
+    visualize_trial(m, results, ts)
 
 
-@hydra.main(config_path="conf", config_name="config")
+@hydra.main(config_path="conf", config_name="config")#, version_base="1.1")
 def main(cfg):
     """Main entry point of the program.
 

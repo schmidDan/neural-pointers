@@ -7,8 +7,17 @@ import numpy as np
 
 
 def relu(h):
-    r = h
+    #r = h
+    r = np.copy(h) # fixing a bug!!
     r[h < 0.0] = 0.0
+    return r
+
+def sigmoid(h, f_0=1.0, beta=1.0, theta=0.5):
+#def sigmoid(h, f_0=1.0, beta=5.0, theta=0.5):
+    return f_0 / (1.0 + np.exp(-beta * (h - theta)))
+
+def square(h):
+    r = np.square(relu(h))
     return r
 
 
@@ -16,7 +25,8 @@ NeuronParams = namedtuple(
     "NeuronParams", ["alpha", "beta", "delta", "eta", "gamma", "tau"]
 )
 SynParams = namedtuple("SynParams", ["syn_min", "syn_max", "tau_rise", "tau_decay"])
-ConnectionParams = namedtuple("ConnectionParams", ["kappa"])
+#ConnectionParams = namedtuple("ConnectionParams", ["kappa"])
+ConnectionParams = namedtuple("ConnectionParams", ["kappa", "k_inh"])
 ModelParams = namedtuple(
     "ModelParams", ["NeuronParams", "SynParams", "ConnectionParams"]
 )
@@ -56,6 +66,8 @@ class SynapticPointerModel:
         self.set_mode(self._mode)
 
         self._g = relu
+        #self._g = square
+#####        self._g = sigmoid
 
         self._n_neurons = n_neurons
         self._input_weights = np.identity(n_neurons)
@@ -148,23 +160,30 @@ class SynapticPointerModel:
 
     def _get_d_h_neur(self, h_neur, exc, mod, inh):
         ps = self._get_mode_params().NeuronParams
+        # d_h_neur = (
+        #     -ps.alpha * h_neur
+        #     + (ps.beta - h_neur) * exc * (1.0 + ps.delta * mod)
+        #     - (ps.eta + ps.gamma * h_neur) * inh
+        # ) / ps.tau
+        
         d_h_neur = (
             -ps.alpha * h_neur
-            + (ps.beta - h_neur) * exc * (1.0 + ps.delta * mod)
-            - (ps.eta + ps.gamma * h_neur) * inh
+            + ps.beta * exc * (1.0 + ps.delta * mod)
+            #- (ps.eta + ps.gamma * h_neur) * inh
+            - ps.eta * inh
         ) / ps.tau
         return d_h_neur
 
     def _get_d_h_syn(self, h_syn, r_neur, I_pointers):
         ps = self._get_mode_params().SynParams
 
-        syn_corr = np.reshape(I_pointers, (1, -1)) * np.reshape(r_neur, (-1, 1))
-        d_h_syn = (ps.syn_max - h_syn) * syn_corr / ps.tau_rise + (
-            ps.syn_min - h_syn
-        ) * (1.0 - syn_corr) / ps.tau_decay
+        syn_corr = np.reshape(I_pointers, (1, -1)) * np.reshape(r_neur, (-1, 1)) # WTA
+        d_h_syn = (ps.syn_max - h_syn) * syn_corr / ps.tau_rise + (ps.syn_min - h_syn) * (1.0 - syn_corr) / ps.tau_decay # WTA
+        ##syn_corr = np.reshape(I_pointers, (1, -1)) * np.reshape(r_neur, (-1, 1))
+        ##d_h_syn = (ps.syn_max - h_syn) * syn_corr / ps.tau_rise + (ps.syn_min - h_syn) * (1.0 - syn_corr) / ps.tau_decay + (ps.syn_max - np.sum(h_syn,axis=0)) * syn_corr / ps.tau_rise
         return d_h_syn
 
-    def __call__(self, h, t, I_input, I_pointers):
+    def __call__(self, h, t, I_input, I_pointers, I_input_inh):
         """Main method by which the model can be queried for a temporal derivative of its state values based on the
         current state `h`, a point in time `t`, driving inputs to the domain `I_input` and modulating input from
         pointers `I_pointers` and the internal model parameters and update equiations `_get_d_h_neur` and
@@ -191,8 +210,15 @@ class SynapticPointerModel:
         # compute modulating input
         mod = np.dot(self.get_synaptic_weights(h), I_pointers)
         # compute inhibition (competition)
+#        kappa = self._get_mode_params().ConnectionParams.kappa
+#        inh = sum(r_neur) - kappa * r_neur
         kappa = self._get_mode_params().ConnectionParams.kappa
-        inh = sum(r_neur) - kappa * r_neur
+        k_inh = self._get_mode_params().ConnectionParams.k_inh
+#        inh = (1.0 - k_inh - kappa) * r_neur + k_inh * sum(r_neur)
+
+        # TODO: is this inhib formula correct and contains all necessary params/inputs?
+        inh = (1.0 - k_inh - kappa) * r_neur + k_inh * sum(r_neur) + h_neur * np.dot(self._input_weights, I_input_inh) # WTA
+        #inh = (1.0 - k_inh - kappa) * r_neur + h_neur * k_inh * sum(r_neur) + h_neur * np.dot(self._input_weights, I_input_inh)
         # compute pointer state update
         d_h_syn = self._get_d_h_syn(h_syn, r_neur, I_pointers)
         # compute neuron state update

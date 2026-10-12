@@ -1,0 +1,60 @@
+# @package __group__
+model_params:
+  binding_params: ${_model_.binding_params}
+  WTA_params: ${_model_.WTA_params}
+
+common_params:
+  neuron_params:
+    #alpha: 1.0
+    alpha: 0.0
+    beta: 1.0
+    delta: 0.01
+    gamma: 1.0
+    tau: 1.0
+  syn_params:
+    syn_min: 0.0
+    syn_max: 1.0
+    tau_rise: 1.0
+    tau_decay: 10.0
+
+binding_params:
+  neuron_params:
+    #eta: 0.0
+    eta: 1.0
+    alpha: ${_model_.common_params.neuron_params.alpha}
+    beta: ${_model_.common_params.neuron_params.beta}
+    delta: ${_model_.common_params.neuron_params.delta}
+    gamma: ${_model_.common_params.neuron_params.gamma}
+    tau: ${_model_.common_params.neuron_params.tau}
+  syn_params:
+    syn_min: ${_model_.common_params.syn_params.syn_min}
+    syn_max: ${_model_.common_params.syn_params.syn_max}
+    tau_rise: ${_model_.common_params.syn_params.tau_rise}
+    tau_decay: ${_model_.common_params.syn_params.tau_decay}
+  connection_params:
+    kappa: 0.0
+    k_inh: 0.0
+
+WTA_params:
+  neuron_params:
+    #eta: 10.0
+    eta: 1.0
+#    eta: 5.0
+    alpha: ${_model_.common_params.neuron_params.alpha}
+    #alpha: 0.0
+    beta: ${_model_.common_params.neuron_params.beta}
+    delta: ${_model_.common_params.neuron_params.delta}
+    gamma: ${_model_.common_params.neuron_params.gamma}
+    #gamma: 0.0
+    tau: ${_model_.common_params.neuron_params.tau}
+  syn_params:
+    syn_min: ${_model_.common_params.syn_params.syn_min}
+    syn_max: ${_model_.common_params.syn_params.syn_max}
+    tau_rise: ${_model_.common_params.syn_params.tau_rise}
+    tau_decay: ${_model_.common_params.syn_params.tau_decay}
+  connection_params:
+    #kappa: 1.0
+#    kappa: 0.25
+    #kappa: 1.5
+    kappa: 0.0
+    k_inh: 1.0

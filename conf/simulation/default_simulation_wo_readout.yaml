@@ -1,0 +1,43 @@
+# @package __group__
+simulation_params:
+  dt: 0.01
+  stages:
+    - name: "reset"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 20
+    - name: "binding0"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 5
+    - name: "reset"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 20
+    - name: "binding1"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 5
+    - name: "reset"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 20
+    - name: "binding2"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 5
+    - name: "reset"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 20
+    - name: "binding3"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 5
+    - name: "reset"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 20
+    - name: "binding4"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 5
+    - name: "reset"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 20
+    - name: "binding5"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 5
+    - name: "reset"
+      mode: ${DOMAIN_MODE:BINDING}
+      duration: 20

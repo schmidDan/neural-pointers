@@ -1,5 +1,5 @@
 seed: 42
-n_neurons: 10
+n_neurons: 6 #10
 plot: True
 defaults:
     - model: default_model

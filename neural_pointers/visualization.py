@@ -45,6 +45,7 @@ def visualize_stage(model, h_m, t, ode_args, stage):
     f.tight_layout()
     plt.legend(["syn_state", "syn_weights", "syn_input"])
     plt.savefig("stage_{}_final_syn.png".format(stage))
+    plt.savefig("stage_{}_final_syn.svg".format(stage))
 
     plt.figure()
     hmp = sns.heatmap(
@@ -81,7 +82,7 @@ def visualize_stage(model, h_m, t, ode_args, stage):
     plt.close("all")
 
 
-def visualize_trial(model, state_list):
+def visualize_trial(model, state_list, t):
     """Visualization of the entire simulation over time.
 
     Args:
@@ -122,6 +123,7 @@ def visualize_trial(model, state_list):
         )
     )
     hmp.get_figure().savefig("rates_over_time.png")
+    hmp.get_figure().savefig("rates_over_time.svg")
 
     plt.figure()
     syn_states = np.concatenate(
@@ -131,4 +133,16 @@ def visualize_trial(model, state_list):
     strongest_syn = np.argmax(np.argmax(syn_states, axis=1), axis=0)
     plt.plot(syn_states[strongest_syn, :])
     plt.savefig("syn_state_strongest_syn_over_time.png")
+
+    
+    plt.figure()
+    h = plt.plot(t,
+        np.transpose(np.concatenate(
+            [*map(lambda x: np.reshape(model.get_neuron_rates(x), (-1, 1)), h_tot)],
+            axis=1,
+        ))
+    )
+    plt.savefig("result_rates_over_time.png")
+    plt.savefig("result_rates_over_time.svg")
+    
     plt.close("all")
