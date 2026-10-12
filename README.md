@@ -1,4 +1,5 @@
 # Neural Pointers
+[![tests](https://github.com/schmidDan/neural-pointers/actions/workflows/tests.yml/badge.svg)](https://github.com/schmidDan/neural-pointers/actions/workflows/tests.yml)
 
 Neurodynamical (rate-based) models for sequencing and executing visual-mental operations, accompanying the poster
 
